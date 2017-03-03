@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.fourthstatelab.free_library.MainActivity"
+    android:background="#df000000"
+    android:elevation="1dp">
+
+    <Button
+        android:text="Sign Up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:id="@+id/signup"
+        android:background="#CC9151e1"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:layout_marginTop="103dp"
+        android:id="@+id/emailid"
+        android:hint="  E-mail id"
+        android:background="#20ffffff"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/pass_word"
+        android:hint=" Password"
+        android:background="#20ffffff"
+        android:layout_below="@+id/emailid"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp" />
+
+    <CheckBox
+        android:text="Keep me logged in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/pass_word"
+        android:layout_alignStart="@+id/pass_word"
+        android:checked="true" />
+
+    <Button
+        android:text="LOGIN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login"
+        android:textSize="17sp"
+        android:background="#CC9151e1"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_below="@+id/checkBox"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="17dp"
+        android:layout_alignEnd="@+id/emailid" />
+</RelativeLayout>

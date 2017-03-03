@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "480988304127",
+    "firebase_url": "https://freelibrary-960df.firebaseio.com",
+    "project_id": "freelibrary-960df",
+    "storage_bucket": "freelibrary-960df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480988304127:android:9230976aa33e4c38",
+        "android_client_info": {
+          "package_name": "com.fourthstatelab.free_library"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "480988304127-9n2lsd4st62rk4hab6g3ghiqudsri4js.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fourthstatelab.free_library",
+            "certificate_hash": "b73b8c1665ae35773af05dcc597767025afd01eb"
+          }
+        },
+        {
+          "client_id": "480988304127-e5q9puphpfnerfqqncg6kgl7t8kgalrs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPGYfiSzRlmfwedqyoXq4vCU8GIfXfBZ8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "480988304127-e5q9puphpfnerfqqncg6kgl7t8kgalrs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
