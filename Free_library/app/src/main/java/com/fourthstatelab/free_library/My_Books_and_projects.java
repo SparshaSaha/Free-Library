@@ -1,5 +1,8 @@
 package com.fourthstatelab.free_library;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,16 +20,27 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.zip.Inflater;
+
 public class My_Books_and_projects extends AppCompatActivity {
     FirebaseDatabase database;
+    public static Context con;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -48,20 +62,7 @@ public class My_Books_and_projects extends AppCompatActivity {
         setContentView(R.layout.activity_my__books_and_projects);
 
         database=FirebaseDatabase.getInstance();
-
-        database.getReference().child("nextEntryId").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int nextEntryId=  dataSnapshot.getValue(Integer.class);
-                Toast.makeText(My_Books_and_projects.this, nextEntryId+"", Toast.LENGTH_SHORT).show();
-            }
-
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        con=this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -131,8 +132,48 @@ public class My_Books_and_projects extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_my__books_and_projects, container, false);
-            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            switch(getArguments().getInt(ARG_SECTION_NUMBER)){
+                case 1:
+                    rootView=inflater.inflate(R.layout.fragment_my__books_and_projects,container,false);
+                    ListView listView=(ListView)rootView.findViewById(R.id.listview);
+                    DatabaseReference databaseReference;
+                    databaseReference=FirebaseDatabase.getInstance().getReference();
+                    Data_holder.book_list=new ArrayList<>();
+                    final Adapter adapter=new Adapter(con,Data_holder.book_list);
+                    listView.setAdapter(adapter);
+                    databaseReference.child("Books").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot data:dataSnapshot.getChildren())
+                            {
+                                Books book=new Books();
+                                book.name=data.child("name").getValue(String.class);
+                                book.subject=data.child("type").getValue(String.class);
+                                book.download_link=data.child("location").getValue(String.class);
+                                Data_holder.book_list.add(book);
+                                adapter.notify_me(Data_holder.book_list);
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            Uri uri = Uri.parse(Data_holder.book_list.get(i).download_link); // missing 'http://' will cause crashed
+                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                        }
+                    });
+
+
+            }
             return rootView;
         }
     }
@@ -170,5 +211,54 @@ public class My_Books_and_projects extends AppCompatActivity {
             }
             return null;
         }
+    }
+}
+
+class Adapter extends BaseAdapter{
+  List<Books> booklist;
+    Context context;
+    LayoutInflater layoutInflater;
+
+    Adapter(Context con,List<Books> list)
+    {
+        booklist=list;
+        context=con;
+        layoutInflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    }
+
+
+    @Override
+    public int getCount() {
+        return booklist.size();
+    }
+
+    @Override
+    public Object getItem(int i) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
+
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+
+        View myview=layoutInflater.inflate(R.layout.book_layout,null);
+        TextView name=(TextView)myview.findViewById(R.id.bookname);
+        TextView type=(TextView)myview.findViewById(R.id.booktype);
+
+        name.setText(booklist.get(i).name);
+        type.setText("Subject:"+booklist.get(i).subject);
+
+
+        return myview;
+    }
+
+    public void notify_me(List<Books> lis)
+    {
+        booklist=lis;
+        notifyDataSetChanged();
     }
 }
